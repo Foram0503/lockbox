@@ -1,0 +1,17 @@
+# Ignore system folders
+AppData/
+.vscode/
+*.log
+*.bin
+*.cache
+
+# Windows stuff
+Thumbs.db
+Desktop.ini
+
+# PHP
+vendor/
+.env
+
+# VS Code
+*.code-workspace
