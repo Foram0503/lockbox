@@ -1,17 +1,27 @@
-# Ignore system folders
+# === OS-Specific Files ===
+# Windows system files
 AppData/
-.vscode/
-*.log
-*.bin
-*.cache
-
-# Windows stuff
 Thumbs.db
+ehthumbs.db
 Desktop.ini
 
-# PHP
-vendor/
-.env
-
-# VS Code
+# === Editor / IDE Config ===
+.vscode/
 *.code-workspace
+
+# === PHP-specific ===
+vendor/         # Ignore Composer dependencies if you use them
+.env            # Ignore environment config files (security)
+*.log           # Log files
+*.lock          # Composer lock or other lock files
+
+# === Git-specific ===
+.gitignore
+*.swp
+*.bak
+*.tmp
+*.cache
+
+# === Browser cache or temp folders ===
+cache/
+tmp/
