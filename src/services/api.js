@@ -10,14 +10,14 @@ const API_KEY = process.env.REACT_APP_API_KEY || 'lock123';
 const api = axios.create({
   baseURL: API_URL,
   headers: {
-    'Content-Type': 'application/x-www-form-urlencoded',
+    'Content-Type': 'application/json',
   },
   withCredentials: true // Important for cookies
 });
 
 // Helper function to format data for PHP backend
 const formatData = (data) => {
-  return `json=${JSON.stringify({ ...data, api_key: API_KEY })}`;
+  return { ...data, api_key: API_KEY };
 };
 
 // Authentication services
