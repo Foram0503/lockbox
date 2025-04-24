@@ -50,12 +50,24 @@ const AddPassword = ({ isOpen, onClose, onAdd, user }) => {
     setIsLoading(true);
     
     try {
-      const response = await passwordService.addPassword(
-        user.id,
-        formData.password,
-        formData.platform,
-        user.email
-      );
+      // Log user and form data for debugging
+      console.log('User object:', user);
+      console.log('Form data:', formData);
+      
+      // Check if user ID exists
+      if (!user || !user.id) {
+        toast.error('User session not found. Please log in again.');
+        return;
+      }
+      
+      const response = await passwordService.addPassword({
+        user_id: user.id,
+        password: formData.password,
+        platform: formData.platform,
+        email: formData.email,
+        notes: formData.notes || '',
+        tags: formData.tags || ''
+      });
       
       if (response.code === 11) {
         // Success
@@ -73,11 +85,11 @@ const AddPassword = ({ isOpen, onClose, onAdd, user }) => {
         toast.success('Password added successfully!');
       } else {
         // Error
-        toast.error('Failed to add password. Please try again.');
+        toast.error(response.message || 'Failed to add password. Please try again.');
       }
     } catch (error) {
       console.error('Error adding password:', error);
-      toast.error('An error occurred while adding the password');
+      toast.error(error.message || 'An error occurred while adding the password');
     } finally {
       setIsLoading(false);
     }

@@ -51,13 +51,16 @@ export const authService = {
   // Register new user
   register: async (name, email, mobile, password) => {
     try {
-      const response = await api.post('', formatData({
+      const requestData = formatData({
         add_user: true,
         name,
         email,
         mobile,
         password
-      }));
+      });
+      console.log('Registration request data:', requestData);
+      const response = await api.post('', requestData);
+      console.log('Registration response:', response.data);
       return response.data;
     } catch (error) {
       console.error('Registration error:', error);
@@ -127,14 +130,37 @@ export const authService = {
 // Password management services
 export const passwordService = {
   // Add a new password
-  addPassword: async (userId, password, platform, email) => {
+  addPassword: async (passwordData) => {
     try {
+      // Log the password data for debugging
+      console.log('Password data received:', passwordData);
+      
+      // Validate required fields with detailed error messages
+      if (!passwordData.user_id) {
+        console.error('Missing user_id field');
+        throw new Error('Missing user_id field');
+      }
+      if (!passwordData.password) {
+        console.error('Missing password field');
+        throw new Error('Missing password field');
+      }
+      if (!passwordData.platform) {
+        console.error('Missing platform field');
+        throw new Error('Missing platform field');
+      }
+      if (!passwordData.email) {
+        console.error('Missing email field');
+        throw new Error('Missing email field');
+      }
+
       const response = await api.post('', formatData({
         add_pass: true,
-        user_id: userId,
-        pass: password,
-        name: platform,
-        email: email
+        user_id: passwordData.user_id,
+        pass: passwordData.password,
+        name: passwordData.platform,
+        email: passwordData.email,
+        notes: passwordData.notes || '',
+        tags: passwordData.tags || ''
       }));
       
       // Check for session expiration
